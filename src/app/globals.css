@@ -67,3 +67,15 @@
     @apply bg-background text-foreground;
   }
 }
+
+.cl-userButton-root {
+  min-width: 100% !important;
+}
+.cl-userButtonTrigger {
+  min-width: 100% !important;
+  padding: 6px 0;
+  justify-content: start;
+}
+.cl-userButtonTrigger:hover {
+  @apply scale-105 origin-top-left;
+}
