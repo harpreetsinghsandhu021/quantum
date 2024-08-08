@@ -1,22 +1,12 @@
-import {
-  Bell,
-  Home,
-  LineChart,
-  Package,
-  Package2,
-  Plus,
-  ShoppingCart,
-  User,
-  Users,
-} from "lucide-react";
+import { Plus, ShoppingCart, Users } from "lucide-react";
 import Link from "next/link";
 import React from "react";
 import { Button } from "./ui/button";
-import { Badge } from "./ui/badge";
 import RecentHistory from "./recents";
 import Image from "next/image";
+import { UserButton } from "@clerk/nextjs";
 
-const Sidebar = () => {
+const Sidebar = async () => {
   return (
     <div className="grid min-h-screen w-full">
       <div className="hidden border-r bg-muted/40 md:block">
@@ -37,7 +27,7 @@ const Sidebar = () => {
             <nav className="grid items-start px-2 text-sm font-medium lg:px-4">
               <Button
                 variant={"outline"}
-                className="flex items-center gap-3 rounded-full w-56 py-2 transition-all hover:text-white hover:bg-zinc-500"
+                className="flex items-center gap-3 rounded-full w-56 py-2 transition-all hover:scale-110 hover:text-white hover:bg-zinc-500"
               >
                 <Plus className="h-4 w-4" />
                 New Chat
@@ -70,13 +60,9 @@ const Sidebar = () => {
             </nav>
           </div>
           <div className="grid items-start px-2 pb-8 text-sm font-medium lg:px-4">
-            <Link
-              href="#"
-              className="flex  items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary"
-            >
-              <User className="h-4 w-4" />
-              Account
-            </Link>
+            <div className="flex  items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary">
+              <UserButton showName />
+            </div>
           </div>
         </div>
       </div>
