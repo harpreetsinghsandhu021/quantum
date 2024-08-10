@@ -47,9 +47,9 @@ const RecentHistory = () => {
     <ul className="border-l-2 ml-4 py-2 pl-1">
       {data.map((d) => {
         return (
-          <li className="group text-xs">
+          <li key={d.id} className="group text-xs">
             <Link
-              className=" flex gap-1 w-max justify-start items-center group-hover:bg-zinc-500 px-2.5 py-0.5 rounded-xl"
+              className=" flex gap-1 text-sm w-max justify-start items-center transition-all group-hover:translate-x-2 group-hover:bg-zinc-500 px-2.5 py-0.5 rounded-xl"
               href={`/${d.id}`}
             >
               <MessageCircle className="w-4 h-4 text-muted-foreground group-hover:text-white" />

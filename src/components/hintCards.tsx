@@ -10,7 +10,7 @@ import {
 
 const HintCards = () => {
   return (
-    <div className="my-4 flex flex-wrap gap-4">
+    <div className="my-4 flex flex-wrap gap-4 max-lg:grid max-lg:grid-cols-2 ">
       <HintCard
         title="Personalized Financial Planning and Advice"
         description="You may lack the time or skills to evaluate the right stocks for your portfolio, and the jargon can be confusing. That's why you need guidance. "
@@ -39,9 +39,11 @@ export function HintCard({
   description: string;
 }) {
   return (
-    <Card className="w-[350px]">
+    <Card className="w-[350px] transition-all cursor-pointer hover:translate-x-3 ">
       <CardHeader>
-        <CardTitle>{title}</CardTitle>
+        <CardTitle className="inline-block text-transparent bg-clip-text bg-gradient-to-r from-[#84ffc9] via-[#aab2ff] to-[#eca0ff]">
+          {title}
+        </CardTitle>
         <CardDescription>{description}</CardDescription>
       </CardHeader>
     </Card>
