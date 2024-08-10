@@ -68,14 +68,30 @@
   }
 }
 
-.cl-userButton-root {
-  min-width: 100% !important;
+.markdown-container p {
+  margin: 6px 0 !important;
 }
+
+.markdown-container strong {
+  margin-bottom: 4px !important;
+}
+
+.no-visible-scrollbar {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  -webkit-overflow-scrolling: touch;
+}
+
+.no-visible-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
 .cl-userButtonTrigger {
-  min-width: 100% !important;
-  padding: 6px 0;
-  justify-content: start;
+  /* min-width: 100% !important; */
+  padding: 6px 16px;
+  justify-content: center;
+  @apply bg-zinc-300;
 }
 .cl-userButtonTrigger:hover {
-  @apply scale-105 origin-top-left;
+  @apply translate-x-2 origin-top-left;
 }
