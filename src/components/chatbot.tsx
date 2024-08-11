@@ -1,4 +1,4 @@
-"use client";
+// "use client";
 
 import {
   ResizableHandle,
@@ -8,7 +8,7 @@ import {
 import Sidebar from "./sidebar";
 import ChatPanel from "./chatPanel";
 
-const Chatbot = () => {
+const Chatbot = ({ id }: { id?: string }) => {
   return (
     <>
       <ResizablePanelGroup direction="horizontal">
@@ -17,7 +17,7 @@ const Chatbot = () => {
         </ResizablePanel>
         <ResizableHandle />
         <ResizablePanel defaultSize={80}>
-          <ChatPanel />
+          <ChatPanel id={id} />
         </ResizablePanel>
       </ResizablePanelGroup>
     </>
