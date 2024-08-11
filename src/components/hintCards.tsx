@@ -10,7 +10,7 @@ import {
 
 const HintCards = () => {
   return (
-    <div className="my-4 flex flex-wrap gap-4 max-lg:grid max-lg:grid-cols-2 ">
+    <div className="my-6 flex flex-wrap gap-4 max-lg:grid max-lg:grid-cols-2 ">
       <HintCard
         title="Personalized Financial Planning and Advice"
         description="You may lack the time or skills to evaluate the right stocks for your portfolio, and the jargon can be confusing. That's why you need guidance. "

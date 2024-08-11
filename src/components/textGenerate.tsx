@@ -2,7 +2,6 @@
 import { Component, ReactElement, useEffect, useMemo } from "react";
 import { motion, stagger, useAnimate } from "framer-motion";
 import { cn } from "@/lib/utils";
-import Markdown from "react-markdown";
 
 export const TextGenerateEffect = ({
   words,
@@ -37,9 +36,9 @@ export const TextGenerateEffect = ({
           return (
             <motion.span
               key={word + idx}
-              className="dark:text-white text-base leading-7 font-[400] opacity-0"
+              className="text-base leading-7 font-[400] opacity-0"
             >
-              {word}
+              {word}{" "}
             </motion.span>
           );
         })}
@@ -50,7 +49,7 @@ export const TextGenerateEffect = ({
   return (
     <div className={cn("font-bold ", className)}>
       <div>
-        <div className=" dark:text-white text-sm leading-normal ">
+        <div className="dark:text-muted-foreground hover:text-white dark:hover:text-white text-sm leading-normal ">
           {renderWords}
         </div>
       </div>

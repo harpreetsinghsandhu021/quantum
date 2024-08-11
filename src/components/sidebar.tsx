@@ -1,3 +1,4 @@
+"use client";
 import { Plus, ShoppingCart, Users } from "lucide-react";
 import Link from "next/link";
 import React from "react";
@@ -6,8 +7,15 @@ import RecentHistory from "./recents";
 import Image from "next/image";
 import { UserButton } from "@clerk/nextjs";
 import ModeToggle from "./toggleTheme";
+import { useRouter } from "next13-progressbar";
+import { useSetRecoilState } from "recoil";
+import { chatMessagesAtom } from "@/store/chat";
+import { usePathname } from "next/navigation";
 
 const Sidebar = () => {
+  const router = useRouter();
+  const setChatMessages = useSetRecoilState(chatMessagesAtom);
+  const pathName = usePathname();
   return (
     <div className="grid min-h-screen w-full">
       <div className="hidden border-r bg-muted/40 md:block">
@@ -29,6 +37,10 @@ const Sidebar = () => {
           <div className="flex-1">
             <nav className="grid items-start px-2 text-sm font-medium lg:px-4">
               <Button
+                onClick={() => {
+                  router.replace("/");
+                  setChatMessages([]);
+                }}
                 variant={"outline"}
                 className="flex items-center gap-3 rounded-full w-full py-2 transition-all hover:translate-x-2 hover:text-white hover:bg-zinc-500"
               >
@@ -37,15 +49,17 @@ const Sidebar = () => {
               </Button>
               <br />
               <Link
-                href="#"
+                href="/"
                 className="flex items-center gap-3 text-base rounded-lg px-3 py-2 text-muted-foreground transition-all hover:translate-x-2 hover:text-white hover:bg-zinc-500"
               >
                 <ShoppingCart className="h-4 w-4" />
                 Home
               </Link>
               <Link
-                href="#"
-                className="flex items-center gap-3 text-base rounded-lg px-3 py-2 text-muted-foreground transition-all hover:translate-x-2 hover:text-white hover:bg-zinc-500"
+                href="/discover"
+                className={`${
+                  pathName.includes("discover") && "bg-zinc-500 text-white"
+                } flex items-center gap-3 text-base rounded-lg px-3 py-2 text-muted-foreground transition-all hover:translate-x-2 hover:text-white hover:bg-zinc-500`}
               >
                 <ShoppingCart className="h-4 w-4" />
                 Discover

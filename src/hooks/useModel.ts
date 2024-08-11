@@ -1,5 +1,10 @@
 "use client";
-import { chatMessagesAtom, responseLoadingAtom } from "@/store/chat";
+import { createMessage } from "@/actions/conversation";
+import {
+  activeChatIdAtom,
+  chatMessagesAtom,
+  responseLoadingAtom,
+} from "@/store/chat";
 import { chat } from "@/types/chat";
 import { createGoogleGenerativeAI } from "@ai-sdk/google";
 import {
@@ -11,7 +16,7 @@ import {
   streamText,
 } from "ai";
 import { useEffect, useState } from "react";
-import { useRecoilState } from "recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
 import { toast } from "sonner";
 
 const genAI = createGoogleGenerativeAI({
@@ -22,11 +27,11 @@ const model = genAI("models/gemini-1.5-pro-latest");
 
 export function useStartChatting() {
   const [chatMessages, setChatMessages] = useRecoilState(chatMessagesAtom);
+  const activeChatId = useRecoilValue(activeChatIdAtom);
   const [responseLoading, setResponseLoading] =
     useRecoilState(responseLoadingAtom);
 
-  async function handleChat(message: chat, messages: chat[]) {
-    setResponseLoading(true);
+  async function handleChat(message: chat, messages: chat[], newId: string) {
     try {
       const prompt = `
     You are a highly experienced and knowledgeable financial advisor with over 20 years of expertise in the industry. You have a deep understanding of personal finance, investments, retirement planning, tax strategies, and wealth management.
@@ -71,6 +76,8 @@ export function useStartChatting() {
           });
         }
       }
+
+      await createMessage(activeChatId || newId, lastMessage.content);
 
       // return { response: text, status: 200 };
     } catch (err: any) {

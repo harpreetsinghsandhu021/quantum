@@ -10,25 +10,26 @@ import {
 } from "./ui/tooltip";
 import { v4 as uuidv4 } from "uuid";
 import { useRouter } from "next13-progressbar";
-import { useSetRecoilState, useRecoilState } from "recoil";
-import { chatMessagesAtom } from "@/store/chat";
+import { useSetRecoilState, useRecoilState, useRecoilValue } from "recoil";
+import { activeChatIdAtom, chatMessagesAtom } from "@/store/chat";
 import { useUser } from "@clerk/nextjs";
 import useChatbot from "@/hooks/useChatbot";
+import { createConversation, createMessage } from "@/actions/conversation";
 
 const PromptForm = () => {
   const fileRef = useRef<HTMLInputElement>(null);
   const [message, setMessage] = useState<string>("");
-  const router = useRouter();
 
   const { onSubmit } = useChatbot();
 
   return (
     <div className="mt-auto">
       <form
-        onSubmit={(e) => {
+        onSubmit={async (e) => {
           e.preventDefault();
 
           onSubmit(message as string);
+
           setMessage("");
         }}
         className="border-2 rounded-full"

@@ -1,16 +1,19 @@
 "use client";
 
-import { chatMessagesAtom, responseLoadingAtom } from "@/store/chat";
+import {
+  activeChatIdAtom,
+  chatMessagesAtom,
+  responseLoadingAtom,
+} from "@/store/chat";
 import { Sparkles, User, User2 } from "lucide-react";
-import React, { ReactElement, useEffect, useRef, useState } from "react";
-import { useRecoilValue } from "recoil";
-import { TextGenerateEffect } from "./textGenerate";
+import React, { useEffect, useRef } from "react";
+import { useRecoilState, useRecoilValue } from "recoil";
 import Markdown from "react-markdown";
 import remarkGfm from "remark-gfm";
-import { useStartChatting } from "@/hooks/useModel";
 
-const ConversationHandler = () => {
-  const chatMessages = useRecoilValue(chatMessagesAtom);
+const ConversationHandler = ({ id }: { id?: string }) => {
+  const [chatMessages, setChatMessages] = useRecoilState(chatMessagesAtom);
+  const activeChatId = useRecoilValue(activeChatIdAtom);
   const messageWindowRef = useRef<HTMLDivElement | null>(null);
 
   const responseLoading = useRecoilValue(responseLoadingAtom);
@@ -27,10 +30,6 @@ const ConversationHandler = () => {
   useEffect(() => {
     onScrollToBottom();
   }, [chatMessages]);
-
-  useEffect(() => {
-    console.log(responseLoading, "changed");
-  }, [responseLoading]);
 
   return (
     <div>
@@ -53,7 +52,7 @@ const ConversationHandler = () => {
                 <Markdown
                   remarkPlugins={[remarkGfm]}
                   className={
-                    "dark:text-white markdown-container text-base leading-7 font-[400]"
+                    "dark:text-white markdown-container text-[18px] leading-8 font-[400]"
                   }
                 >
                   {message.content}
