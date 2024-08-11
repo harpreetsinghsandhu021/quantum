@@ -1,20 +1,19 @@
 "use client";
 
-import { chatMessagesAtom } from "@/store/chat";
+import { chatMessagesAtom, responseLoadingAtom } from "@/store/chat";
 import { Sparkles, User, User2 } from "lucide-react";
 import React, { ReactElement, useEffect, useRef, useState } from "react";
 import { useRecoilValue } from "recoil";
 import { TextGenerateEffect } from "./textGenerate";
 import Markdown from "react-markdown";
 import remarkGfm from "remark-gfm";
-import useChatbot from "@/hooks/useChatbot";
 import { useStartChatting } from "@/hooks/useModel";
 
 const ConversationHandler = () => {
   const chatMessages = useRecoilValue(chatMessagesAtom);
   const messageWindowRef = useRef<HTMLDivElement | null>(null);
 
-  const { responseLoading } = useStartChatting();
+  const responseLoading = useRecoilValue(responseLoadingAtom);
 
   const onScrollToBottom = () => {
     if (messageWindowRef.current) {
@@ -28,6 +27,10 @@ const ConversationHandler = () => {
   useEffect(() => {
     onScrollToBottom();
   }, [chatMessages]);
+
+  useEffect(() => {
+    console.log(responseLoading, "changed");
+  }, [responseLoading]);
 
   return (
     <div>
@@ -63,7 +66,10 @@ const ConversationHandler = () => {
           <div className="flex gap-3">
             <AIIcon />
             <div className="leading-relaxed w-full">
-              <span className="block font-bold text-gray-700"> AI</span>
+              <span className="block font-bold text-gray-700 dark:text-gray-300">
+                {" "}
+                Quantum
+              </span>
               <Loader />
             </div>
           </div>
@@ -75,12 +81,12 @@ const ConversationHandler = () => {
 
 function Loader() {
   return (
-    <div className="w-full mt-1 animate-pulse">
-      <div className="h-2.5 bg-gray-300 delay-150 rounded-full dark:bg-gray-700 w-full mb-4"></div>
-      <div className="h-2.5 bg-gray-300 delay-75 rounded-full dark:bg-gray-700 w-full mb-4"></div>
-      <div className="h-2.5 bg-gray-300 delay-150 rounded-full dark:bg-gray-700 w-full mb-4"></div>
-      <div className="h-2.5 bg-gray-300 delay-75 rounded-full dark:bg-gray-700 w-full mb-4"></div>
-      <div className="h-2.5 bg-gray-300 delay-150 rounded-full dark:bg-gray-700 w-24 mb-4"></div>
+    <div className="w-full mt-2 animate-pulse">
+      <div className="h-2.5 bg-gray-300 delay-150 rounded-full dark:bg-gray-400 w-full mb-4"></div>
+      <div className="h-2.5 bg-gray-300 delay-75 rounded-full dark:bg-gray-400 w-full mb-4"></div>
+      <div className="h-2.5 bg-gray-300 delay-150 rounded-full dark:bg-gray-400 w-full mb-4"></div>
+      <div className="h-2.5 bg-gray-300 delay-75 rounded-full dark:bg-gray-400 w-full mb-4"></div>
+      <div className="h-2.5 bg-gray-300 delay-150 rounded-full dark:bg-gray-400 w-24 mb-4"></div>
     </div>
   );
 }

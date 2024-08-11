@@ -10,6 +10,7 @@ import { chatMessagesAtom } from "@/store/chat";
 
 const ChatPanel = () => {
   const { isSignedIn, user, isLoaded } = useUser();
+
   const [chatMessages, setChatMessages] = useRecoilState(chatMessagesAtom);
 
   return (

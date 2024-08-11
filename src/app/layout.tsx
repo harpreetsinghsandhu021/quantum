@@ -5,6 +5,7 @@ import { ClerkProvider } from "@clerk/nextjs";
 import { ThemeProvider } from "@/providers/themeProvider";
 import ProgressBarProviders from "@/providers/progressBarProvider";
 import { RecoilRoot } from "recoil";
+import { Toaster } from "@/components/ui/sonner";
 
 const space = Space_Grotesk({ subsets: ["latin"] });
 
@@ -24,7 +25,10 @@ export default function RootLayout({
               enableSystem
               disableTransitionOnChange
             >
-              <ProgressBarProviders>{children}</ProgressBarProviders>
+              <ProgressBarProviders>
+                {children}
+                <Toaster />
+              </ProgressBarProviders>
             </ThemeProvider>
           </RecoilRoot>
         </body>

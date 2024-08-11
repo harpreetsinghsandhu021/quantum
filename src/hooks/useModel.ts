@@ -1,5 +1,5 @@
 "use client";
-import { chatMessagesAtom } from "@/store/chat";
+import { chatMessagesAtom, responseLoadingAtom } from "@/store/chat";
 import { chat } from "@/types/chat";
 import { createGoogleGenerativeAI } from "@ai-sdk/google";
 import {
@@ -10,8 +10,9 @@ import {
   CoreSystemMessage,
   streamText,
 } from "ai";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRecoilState } from "recoil";
+import { toast } from "sonner";
 
 const genAI = createGoogleGenerativeAI({
   apiKey: process.env.NEXT_PUBLIC_GOOGLE_GENERATIVE_AI_API_KEY,
@@ -19,17 +20,13 @@ const genAI = createGoogleGenerativeAI({
 
 const model = genAI("models/gemini-1.5-pro-latest");
 
-function sleep(ms: number) {
-  return new Promise((resolve) => setTimeout(resolve, ms));
-}
-
 export function useStartChatting() {
   const [chatMessages, setChatMessages] = useRecoilState(chatMessagesAtom);
-  const [responseLoading, setResponseLoading] = useState(false);
+  const [responseLoading, setResponseLoading] =
+    useRecoilState(responseLoadingAtom);
 
   async function handleChat(message: chat, messages: chat[]) {
     setResponseLoading(true);
-
     try {
       const prompt = `
     You are a highly experienced and knowledgeable financial advisor with over 20 years of expertise in the industry. You have a deep understanding of personal finance, investments, retirement planning, tax strategies, and wealth management.
@@ -52,22 +49,18 @@ export function useStartChatting() {
         prompt: prompt,
       });
 
-      console.log("control reached here", responseLoading);
-
       let newMessages = [message, ...chatMessages];
-
-      console.log(newMessages);
 
       newMessages.push({
         role: "Quantum",
         content: "",
       });
-      setResponseLoading(false);
 
       const lastMessageIndex = newMessages.length - 1;
       const lastMessage = { ...newMessages[lastMessageIndex] };
 
       for await (const textPart of stream.textStream) {
+        setResponseLoading(false);
         if (textPart) {
           lastMessage.content += textPart;
 
@@ -80,8 +73,9 @@ export function useStartChatting() {
       }
 
       // return { response: text, status: 200 };
-    } catch (err) {
+    } catch (err: any) {
       console.log(err);
+      toast.error(err.message as string);
     }
   }
 
